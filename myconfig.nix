@@ -5,7 +5,9 @@
 { config, lib, pkgs, ... }:
 
 {
-  imports = [ ./hardware-configuration.nix  ];
+  imports = [ 
+	./hardware-configuration.nix
+	];
 
   # EFI
   boot.loader.systemd-boot.enable = true;
@@ -44,17 +46,23 @@
 	packages = with pkgs;
 		[
 		foot
+ 		obsidian
+		flameshot
 		discord
 		heroic
 		spotify
+		freetube
 		xrootd
 		gfortran
-		librewolf
+		floorp-bin
 		vscodium
 		vesktop
 		obs-studio
 		audacity
 		navidrome
+		htop
+		btop
+		prismlauncher
 		];
 	};
   environment.systemPackages = with pkgs;
@@ -62,6 +70,7 @@
 	# GLOBAL PACKAGES
 	wget
 	curl
+	gh
 	git
 	librewolf
 	blueman
@@ -120,9 +129,11 @@
 	enable = true;
 	xwayland.enable = true;
 	};
+
   environment.sessionVariables = {
 	NIXOS_OZONE_WL = "1";
 	};
+
   services.displayManager.sddm = 
 	{ enable = true; 
 	wayland.enable = true;};
@@ -141,154 +152,11 @@
 	package = config.boot.kernelPackages.nvidiaPackages.stable;
 	};
 
-  # Firewall
+  # System health
 
-  services.opensnitch.rules = {
-  rule-000-librewolf = {
-	name = "Allow LibreWolf";
-	enabled = true;
-	action = "allow";
-	duration = "always";
-	operator = {
-		type = "simple";
-		sensitive = false;
-		operand = "process.path";
-		data = "${lib.getBin pkgs.librewolf}/lib/librewolf/librewolf";
-		};
-	};
-  rule-100-xrootd = {
-    name = "Allow xrootd";
-    enabled = true;
-    action = "allow";
-    duration = "always";
-    operator = {
-      type = "simple";
-      sensitive = false;
-      operand = "process.path";
-      data = "${lib.getBin pkgs.xrootd}/bin/xrootd";
-    };
-  };
+  boot.tmp.cleanOnBoot = true;
+  services.fstrim.enable = true;
 
-  rule-100-heroic = {
-    name = "Allow Heroic";
-    enabled = true;
-    action = "allow";
-    duration = "always";
-    operator = {
-      type = "simple";
-      sensitive = false;
-      operand = "process.path";
-      data = "${lib.getBin pkgs.heroic}/bin/heroic";
-    };
-  };
-
-  rule-500-steam = {
-    name = "Allow Steam";
-    enabled = true;
-    action = "allow";
-    duration = "always";
-    operator = {
-      type = "simple";
-      sensitive = false;
-      operand = "process.path";
-      data = "${lib.getBin pkgs.steam}/bin/steam";
-    };
-  };
-  
-  
-  rule-100-vesktop = {
-    name = "Allow Vesktop";
-    enabled = true;
-    action = "allow";
-    duration = "always";
-    operator = {
-      type = "simple";
-      sensitive = false;
-      operand = "process.path";
-      data = "${lib.getBin pkgs.vesktop}/bin/vesktop";
-    };
-  };
-
-  rule-100-spotify = {
-    name = "Allow Spotify";
-    enabled = true;
-    action = "allow";
-    duration = "always";
-    operator = {
-      type = "simple";
-      sensitive = false;
-      operand = "process.path";
-      data = "${lib.getBin pkgs.spotify}/bin/spotify";
-    };
-  };
-
-  rule-100-freetube = {
-    name = "Allow FreeTube";
-    enabled = true;
-    action = "allow";
-    duration = "always";
-    operator = {
-      type = "simple";
-      sensitive = false;
-      operand = "process.path";
-      data = "${lib.getBin pkgs.freetube}/bin/freetube";
-    };
-  };
-
-  rule-100-nix = {
-    name = "Allow Nix";
-    enabled = true;
-    action = "allow";
-    duration = "always";
-    operator = {
-      type = "simple";
-      sensitive = false;
-      operand = "process.path";
-      data = "${lib.getBin pkgs.nix}/bin/nix";
-    };
-  };
-
-  rule-100-nix-daemon = {
-    name = "Allow Nix Daemon";
-    enabled = true;
-    action = "allow";
-    duration = "always";
-    operator = {
-      type = "simple";
-      sensitive = false;
-      operand = "process.path";
-      data = "${lib.getBin pkgs.nix}/bin/nix-daemon";
-    };
-  };
-
-  rule-100-NetworkManager = {
-    name = "Allow NetworkManager";
-    enabled = true;
-    action = "allow";
-    duration = "always";
-    operator = {
-      type = "simple";
-      sensitive = false;
-      operand = "process.path";
-      data = "${lib.getBin pkgs.networkmanager}/bin/NetworkManager";
-    };
-  };
-
-  rule-000-localhost = {
-  name = "Allow localhost";
-  enabled = true;
-  action = "allow";
-  duration = "always";
-  operator = {
-    type = "regexp";
-    operand = "dest.ip";
-    sensitive = false;
-    data = "^(127\\.0\\.0\\.1|::1)$";
-    list = [ ];
-  };
-};
-
-  };
   # SYSTEM STATE VERSION
   ## DO NOT TOUCH (unless you wanna)
 
