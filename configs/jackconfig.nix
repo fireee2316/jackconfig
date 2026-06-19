@@ -44,44 +44,45 @@
     initialPassword = "123";
     extraGroups = [ "wheel" "networkmanager" ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
-        foot
-        librewolf
-        nemo
-        task-keeper
-        vesktop
-        flameshot
-        spotify
-        prismlauncher
-        heroic
-        gh
-        git
+	foot
+	librewolf
+	nemo
+	task-keeper
+	vesktop
+	flameshot
+	spotify
+	prismlauncher
+	heroic
+	gh
+	git
     ];
   };
 
   environment.systemPackages = with pkgs; [
-        wget
-        curl
-        git
-        blueman
-        ];
+	wget
+	curl
+	git
+	blueman
+	];
 
   nixpkgs.config.allowUnfree = true;
   hardware.graphics.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
 
   hardware.nvidia = {
-        modesetting.enable = true;
-        powerManagement.enable = false;
-        powerManagement.finegrained = false;
-        open = true;
-        nvidiaSettings = true;
-        package = config.boot.kernelPackages.nvidiaPackages.stable;
-        };
+	modesetting.enable = true;
+	powerManagement.enable = false;
+	powerManagement.finegrained = false;
+	open = true;
+	nvidiaSettings = true;
+	package = config.boot.kernelPackages.nvidiaPackages.stable;
+	};
   programs.steam = {
-        enable = true;
-        remotePlay.openFirewall = true;
-        dedicatedServer.openFirewall = true;
-        };
+	enable = true;
+	remotePlay.openFirewall = true;
+	dedicatedServer.openFirewall = true;
+	};
 
   system.stateVersion = "26.05";
 }
+

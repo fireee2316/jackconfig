@@ -1,144 +1,70 @@
 # Edit this configuration file to define what should be installed on
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-
+ 
 { config, lib, pkgs, ... }:
 
 {
-  imports = [ 
-	./hardware-configuration.nix
-	];
+  imports =
+    [ # Include the results of the hardware scan.
+      ./hardware-configuration.nix
+    ];
 
-  # EFI
+  # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  
-  # hostname
-  networking.hostName = "BBL";
+  services.flatpak.enable = true;
 
-  # WiFi + Bluetooth
-  networking.wireless.enable = true;
+  networking.hostName = "JL"; # Define your hostname.
+
+  # Configure network connections interactively with nmcli or nmtui.
   networking.networkmanager.enable = true;
+
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
   services.blueman.enable = true;
 
-
-  hardware.bluetooth.settings = {
-    General = {
-      Enable = "Source,Sink,Media,Socket";
-    };
-  };
-
-  # TZ
+  # Set your time zone.
   time.timeZone = "Europe/London";
 
-  # Internal language
-  i18n.defaultLocale = "en_GB.UTF-8";
+  # Enable GNOME.
+  services.xserver.enable = true;
+  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.desktopManager.gnome.enable = true;
 
-  # User account
-  users.users.fireee = {
-	isNormalUser = true;
- 	extraGroups = [ "wheel" "networkmanager" ];
 
-	# USER PACKAGES
+  
 
-	packages = with pkgs;
-		[
-		foot
- 		obsidian
-		flameshot
-		discord
-		heroic
-		spotify
-		freetube
-		xrootd
-		gfortran
-		floorp-bin
-		vscodium
-		vesktop
-		obs-studio
-		audacity
-		navidrome
-		htop
-		btop
-		prismlauncher
-		];
-	};
-  environment.systemPackages = with pkgs;
-	[
-	# GLOBAL PACKAGES
-	wget
-	curl
+  # Configure keymap in X11
+  services.xserver.xkb.layout = "gb";
+
+  # Define a user account. Don't forget to set a password with ‘passwd’.
+  users.users.jack= {
+    isNormalUser = true;
+    initialPassword = "123";
+    extraGroups = [ "wheel" "networkmanager" ]; # Enable ‘sudo’ for the user.
+    packages = with pkgs; [
+	foot
+	librewolf
+	nemo
+	task-keeper
+	vesktop
+	flameshot
+	spotify
+	prismlauncher
+	heroic
 	gh
 	git
-	librewolf
+    ];
+  };
+
+  environment.systemPackages = with pkgs; [
+	wget
+	curl
+	git
 	blueman
-	brightnessctl
-	julia
-	opensnitch-ui
-
-	# For HyprLand
-	waybar
-	mako
-	awww
-	rofi
-	kdePackages.polkit-kde-agent-1
-	wev
-	
 	];
-  # Programs and services
 
-  services.opensnitch = {
-	enable = true;
-	settings.DefaultAction = "deny";
-	};
-
-  programs.steam = {
-	enable = true;
-	remotePlay.openFirewall = true;
-	dedicatedServer.openFirewall = true;
-	};
-
-  programs.nix-ld.enable = true;
-  programs.nix-ld.libraries = with pkgs; [
-  	stdenv.cc.cc.lib
-  	gfortran.cc.lib
-  	zlib
-  	glibc
-  	
-  	# Graphics & Windowing Libraries for Makie/GLFW
-  	libGL
-  	libx11
-  	libxcursor
-  	libxrandr
-  	libxinerama
-  	libxi
-        ];
-
-  xdg.portal.enable = true;
-  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-
-  # Flakes
-
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-
-  # HyprLand
-  programs.hyprland = {
-	enable = true;
-	xwayland.enable = true;
-	};
-
-  environment.sessionVariables = {
-	NIXOS_OZONE_WL = "1";
-	};
-
-  services.displayManager.sddm = 
-	{ enable = true; 
-	wayland.enable = true;};
-
-  # GPU Stuff
   nixpkgs.config.allowUnfree = true;
   hardware.graphics.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
@@ -151,14 +77,12 @@
 	nvidiaSettings = true;
 	package = config.boot.kernelPackages.nvidiaPackages.stable;
 	};
+  programs.steam = {
+	enable = true;
+	remotePlay.openFirewall = true;
+	dedicatedServer.openFirewall = true;
+	};
 
-  # System health
-
-  boot.tmp.cleanOnBoot = true;
-  services.fstrim.enable = true;
-
-  # SYSTEM STATE VERSION
-  ## DO NOT TOUCH (unless you wanna)
-
-  system.stateVersion = "23.11";
+  system.stateVersion = "26.05";
 }
+
