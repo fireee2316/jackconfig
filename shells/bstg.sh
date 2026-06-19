@@ -1,6 +1,6 @@
-sudo cp /etc/nixos/configuration.nix ~/jackconfig/configs/myconfig.nix > /dev/null || echo "config copy successful"
+sudo cp /etc/nixos/configuration.nix ~/jackconfig/configs/myconfig.nix > /dev/null || echo "config copy failed"
 
-sudo cp ~/.config/hypr/hyprland.conf ~/jackconfig/configs/mybinds.conf > /dev/null || echo "binds copy successful"
+sudo cp ~/.config/hypr/hyprland.conf ~/jackconfig/configs/mybinds.conf > /dev/null || echo "binds copy failed"
 
 cd ~/jackconfig || { echo "cd failed"; exit 1; }
 
