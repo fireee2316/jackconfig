@@ -12,4 +12,5 @@ git commit -m "${1:-config update $(date)}" > /dev/null && echo "git commit succ
 
 git push > /dev/null && echo "push successful"
 
-git restore ~/jackconfig > /dev/null
+git restore ~/jackconfig/configs > /dev/null
+git restore ~/jackconfig/shells > /dev/null
