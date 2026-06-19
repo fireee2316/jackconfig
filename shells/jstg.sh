@@ -2,7 +2,7 @@ sudo cp /etc/nixos/configuration.nix ~/jackconfig/configs/jackconfig.nix > /dev/
 
 # sudo cp ~/.config/hypr/hyprland.conf ~/jackconfig/configs/mybinds.conf > /dev/null || echo "binds copy successful"
 
-cd ~/jackconfig
+cd ~/jackconfig || { echo "cd failed"; exit 1; }
 
 git add configs/jackconfig.nix > /dev/null || echo "git add config failed"
 
