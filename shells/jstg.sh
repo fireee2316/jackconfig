@@ -11,3 +11,5 @@ git add configs/jackconfig.nix > /dev/null || echo "git add config failed"
 git commit -m "${1:-config update $(date)}" > /dev/null && echo "git commit successful"
 
 git push > /dev/null && echo "push successful"
+
+git restore ~/jackconfig > /dev/null
