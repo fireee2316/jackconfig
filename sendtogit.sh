@@ -1,6 +1,6 @@
 sudo cp /etc/nixos/configuration.nix ~/jackconfig/myconfig.nix || echo "config copy successful"
 
-sudo cp ~/.config/hypr/hyprland.conf ~/jackconfig/binds.conf || echo "binds copy successful"
+sudo cp ~/.config/hypr/hyprland.conf ~/jackconfig/mybinds.conf || echo "binds copy successful"
 
 cd ~/jackconfig
 
