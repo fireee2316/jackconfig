@@ -1,2 +1,2 @@
 cd ~/jackconfig/cmdline
-./cmdshell/sh | cat output.txt >
+./cmdshell.sh | cat output.txt >
