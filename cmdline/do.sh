@@ -1,2 +1,2 @@
 cd ~/jackconfig/cmdline
-cat output.txt > (./cmdshell.sh | grep)
+cat output.txt > $(./cmdshell.sh | grep)
