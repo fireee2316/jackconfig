@@ -45,10 +45,11 @@
 
 	packages = with pkgs;
 		[
+		nemo-with-extensions
+		unzip
 		foot
  		obsidian
 		flameshot
-		discord
 		heroic
 		spotify
 		freetube
@@ -62,7 +63,9 @@
 		navidrome
 		htop
 		btop
+		element-desktop
 		prismlauncher
+		karere
 		];
 	};
   environment.systemPackages = with pkgs;
@@ -77,7 +80,9 @@
 	brightnessctl
 	julia
 	opensnitch-ui
-
+	thunar-archive-plugin
+	jq
+	sutils
 	# For HyprLand
 	waybar
 	mako
@@ -99,6 +104,8 @@
 	remotePlay.openFirewall = true;
 	dedicatedServer.openFirewall = true;
 	};
+
+  services.gvfs.enable = true;
 
   programs.nix-ld.enable = true;
   programs.nix-ld.libraries = with pkgs; [
